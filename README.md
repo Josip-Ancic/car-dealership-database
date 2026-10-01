@@ -12,7 +12,7 @@ Relational database for a used-car dealership that handles the vehicle inventory
   - block deleting a service that is still `aktivna` / `u tijeku`  
   - automatically close a service when a payment is recorded as `plaćeno`
 - **Simple and complex SQL queries** with joins, aggregation and grouping.
-- **Python Tkinter GUI** for adding vehicles and for updating and deleting services (see the documentation).
+- **Python Tkinter GUI** (`app/`): a form for adding vehicles, and a table view for updating and deleting services. The delete trigger shows up here as an error message.
 
 ## Tech stack
 
@@ -21,6 +21,9 @@ PostgreSQL · PL/pgSQL · DataGrip · draw.io · Python (Tkinter)
 ## Repository structure
 
 ```
+app/
+  dodaj.py           # Tkinter form: add a vehicle
+  upd_del.py         # Tkinter: list, update and delete services
 sql/
   01_schema.sql      # schema bp2_projekt + all tables and constraints
   02_seed_data.sql   # sample data (fictional customers)
@@ -49,6 +52,15 @@ INSERT INTO placanje (iznos, datum, status_placanja, id_usluga)
 VALUES (180, '2025-05-05', 'plaćeno', 2);         -- service 2 becomes 'završena'
 ```
 
+Run the GUI (the database connection is read from environment variables):
+
+```bash
+pip install psycopg2-binary
+export DB_NAME=dealership DB_USER=postgres DB_PASSWORD=your_password
+python app/dodaj.py
+python app/upd_del.py
+```
+
 ## Data model
 
 `drzava` 1─N `autokuca` 1─N `vozilo` 1─N `usluga` N─1 `kupac`  
@@ -72,7 +84,7 @@ Relacijska baza podataka za autokuću rabljenih vozila. Pokriva evidenciju vozil
   - zabrana brisanja usluga koje su `aktivna` / `u tijeku`  
   - automatsko zatvaranje usluge kad se plaćanje evidentira kao `plaćeno`
 - **Jednostavni i složeni SQL upiti** sa spajanjem tablica, agregacijom i grupiranjem.
-- **Python Tkinter sučelje** za unos vozila te ažuriranje i brisanje usluga (vidi dokumentaciju).
+- **Python Tkinter sučelje** (`app/`): forma za unos vozila te tablica za ažuriranje i brisanje usluga.
 
 ### Tehnologije
 
@@ -80,4 +92,4 @@ PostgreSQL · PL/pgSQL · DataGrip · draw.io · Python (Tkinter)
 
 ### Pokretanje
 
-Skripte iz mape `sql/` pokreni redom od 01 do 04 (naredbe su iznad). Cjelovita dokumentacija nalazi se u `docs/`.
+Skripte iz mape `sql/` pokreni redom od 01 do 04. Za sučelje postavi varijable okruženja `DB_NAME`, `DB_USER` i `DB_PASSWORD` pa pokreni `app/dodaj.py` ili `app/upd_del.py` (naredbe su iznad). Cjelovita dokumentacija nalazi se u `docs/`.
